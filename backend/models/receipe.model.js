@@ -1,13 +1,24 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    title: String,
-    ingredients: String,
-    instructions: String,
-    sustainabilityRating: Number
+const receipeSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    ingredients: {
+        type: [String],
+        required: true
+    },
+    instructions: {
+        type: String,
+        required: true
+    },
+    sustainabilityRating: {
+        type: Number,
+        required: true
+    }
 });
 
-const User = mongoose.model('user', userSchema);
+const Receipe = mongoose.model('Receipe', receipeSchema);
 
-module.exports = User;
+module.exports = Receipe;
