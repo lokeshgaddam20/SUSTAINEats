@@ -7,9 +7,10 @@
     top: 0;
     z-index: 999;
     background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.3) 50%);
+    transition: background-color 0.3s ease; // Smooth transition for background color change
 
     &.scrolled {
-        background-color: var(--main-color);
+        background-color: var(--main-color); // Change background color when scrolled
     }
 
     .container {
@@ -22,6 +23,7 @@
         .left {
             display: flex;
             align-items: center;
+
             img { // logo
                 height: 50px;
                 margin-right: 40px;
@@ -31,98 +33,42 @@
             span {
                 margin-right: 20px;
                 cursor: pointer;
+                transition: color 0.3s ease; // Smooth transition for color change
+
+                &:hover {
+                    color: var(--main-color); // Change text color on hover
+                }
             }
-            
+
             .dropdown {
-                .diningDropdownOptions {
-                    transform: translate(12.5%, 2.5%); // translate X and Y to fix centering of dropdown
-                    display: none;
-                    background-color: var(--main-color);
-                    border-radius: 5px;
-                }
-
-                .moreDiningDropdownOptions {
-                    transform: translate(7.5%, 5%); // translate X and Y to fix centering of dropdown
-                    display: none;
-                    background-color: var(--main-color);
-                    border-radius: 5px;
-                }
-
-                .nutritionDropdownOptions {
-                    transform: translate(7.5%, 5%); // translate X and Y to fix centering of dropdown
-                    display: none;
-                    background-color: var(--main-color);
-                    border-radius: 5px;
-                }
-
-                .fitnessDropdownOptions {
-                    transform: translate(7.5%, 12.5%); // translate X and Y to fix centering of dropdown
-                    display: none;
-                    background-color: var(--main-color);
-                    border-radius: 5px;
-                }
-
-                .healthDropdownOptions {
-                    transform: translate(7.5%, 12.5%); // translate X and Y to fix centering of dropdown
-                    display: none;
-                    background-color: var(--main-color);
-                    border-radius: 5px;
-                }
+                position: relative; // Set dropdown container as relative
 
                 .link {
                     padding: 10px 0px;
                     margin-right: 0px;
                     cursor: pointer;
-                    // display: inline;
-                }
-                
-                span {
-                    padding: 10px;
-                    margin-right: 0px;
-                    cursor: pointer;
-                }
+                    transition: background-color 0.3s ease; // Smooth transition for background color change
 
-                .link {
                     &:hover {
-                        background-color: goldenrod;
+                        background-color: goldenrod; // Change background color on hover
                         border-radius: 5px;
                     }
                 }
 
+                span {
+                    padding: 10px;
+                    cursor: pointer;
+                }
+
                 &:hover {
-                    .diningDropdownOptions {
+                    .dropdownOptions {
                         display: flex;
                         flex-direction: column;
                         position: absolute;
-                        // top: 50px; // moves dropdown a bit further down
-                    }
-
-                    .moreDiningDropdownOptions {
-                        display: flex;
-                        flex-direction: column;
-                        position: absolute;
-                        // top: 50px; // moves dropdown a bit further down
-                    }
-
-                    .nutritionDropdownOptions {
-                        display: flex;
-                        flex-direction: column;
-                        position: absolute;
-                        // top: 50px; // moves dropdown a bit further down
-                    }
-
-                    .fitnessDropdownOptions {
-                        display: flex;
-                        flex-direction: column;
-                        position: absolute;
-                        // top: 50px; // moves dropdown a bit further down
-                    }
-
-                    .healthDropdownOptions {
-                        display: flex;
-                        flex-direction: column;
-                        position: absolute;
-                        // top: 50px; // moves dropdown a bit further down
+                        top: 100%; // Position dropdown below the navbar
+                        left: 0;
+                        background-color: var(--main-color);
+                        border-radius: 5px;
                     }
                 }
             }
@@ -135,6 +81,11 @@
             .icon {
                 margin: 0px 15px;
                 cursor: pointer;
+                transition: color 0.3s ease; // Smooth transition for color change
+
+                &:hover {
+                    color: var(--main-color); // Change icon color on hover
+                }
             }
 
             img {
@@ -143,23 +94,33 @@
                 border-radius: 5px;
                 object-fit: cover;
                 cursor: pointer;
+                transition: transform 0.3s ease; // Smooth transition for scale change
+
+                &:hover {
+                    transform: scale(1.1); // Scale up image on hover
+                }
             }
 
             .profile {
+                position: relative; // Set profile container as relative
+
                 .options {
                     display: none;
                     background-color: var(--main-color);
                     border-radius: 5px;
+                    position: absolute;
+                    top: 100%; // Position options below the profile
+                    left: 0;
                 }
 
                 .link {
                     padding: 10px 0px;
                     margin-right: 0px;
                     cursor: pointer;
-                    // display: inline;
+                    transition: background-color 0.3s ease; // Smooth transition for background color change
 
                     &:hover {
-                        background-color: goldenrod;
+                        background-color: goldenrod; // Change background color on hover
                         border-radius: 5px;
                     }
                 }
@@ -173,7 +134,6 @@
                     .options {
                         display: flex;
                         flex-direction: column;
-                        position: absolute;
                     }
                 }
             }
