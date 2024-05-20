@@ -7,7 +7,6 @@ const routes=express.Router()
 routes.use(express.json())
 routes.use(urlencoded({extended:true}))
 
-
 routes.get('/signup',signupAction);
 routes.get('/login',loginAction);
 routes.get('/logout',logoutAction);
