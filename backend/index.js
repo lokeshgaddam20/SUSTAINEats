@@ -27,12 +27,10 @@ app.use(cors({
 }));
 
 app.use("/api/auth", authRoute);
-app.use("/api/menuInfo", menuInfoRoute);
-app.use("/api/problems", problemsRoute);
-app.use("/api/ratings", ratingsRoute);
-app.use("/api/recommendations", recommendationsRoute);
-app.use("/api/saved", savedRoute);
-app.use("/api/users", usersRoute);
+app.use("/api/foods", foodRoute);
+app.use("/api/receipes", receipeRoute);
+app.use("/api/meal-plans", mealRoute);
+app.use("/api/carbon-footprint", carbonRoute);
 
 app.listen(8000, () => {
     console.log(`Backend is running on port ${PORT}`);
