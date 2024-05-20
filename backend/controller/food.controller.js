@@ -10,3 +10,5 @@ async function getFoodbyID(req,res){
 async function getSeasonalFood(req,res){
     res.send('getSeasonalFood')
 }
+
+module.exports ={ getAllFoods, getFood, getFoodbyID, getSeasonalFood}
