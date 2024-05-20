@@ -5,7 +5,7 @@ const express = require("express");
 
 const app = express();
 
-const userRoute = require("./routes/auth.route");
+const authRoute = require("./routes/auth.route");
 const foodRoute = require("./routes/food.route");
 const carbonRoute = require("./routes/carbon.route");
 const mealRoute = require("./routes/meal.route");
