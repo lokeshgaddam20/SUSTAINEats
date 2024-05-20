@@ -26,7 +26,7 @@ app.use(cors({
     origin: 'http://127.0.0.1:5500'
 }));
 
-app.use("/api/auth", authenticationRoute);
+app.use("/api/auth", authRoute);
 app.use("/api/menuInfo", menuInfoRoute);
 app.use("/api/problems", problemsRoute);
 app.use("/api/ratings", ratingsRoute);
