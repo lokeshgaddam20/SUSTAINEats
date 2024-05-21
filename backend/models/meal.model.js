@@ -15,7 +15,7 @@ const mealPlanSchema = new mongoose.Schema({
         ref: 'Receipe'
     }],
     date: {
-        type: Date,
+        type: Date, 
         default: Date.now
     }
 });
