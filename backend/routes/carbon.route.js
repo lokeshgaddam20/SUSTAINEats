@@ -1,10 +1,12 @@
-const { urlencoded } = require('body-parser')
+
 const express = require("express")
-const app = express()
+const routes = express.Router()
+
+const {calculateCarbonFootPrint} = require('../controller/carbon.controller')
 
 routes.use(express.json())
 routes.use(express.urlencoded({extended: true}))
 
-app.post('/',calculateCarbonFootPrint)
+routes.post('/',calculateCarbonFootPrint)
 
 module.exports = routes

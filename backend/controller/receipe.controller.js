@@ -1,40 +1,58 @@
-const receipeModel = require('../models/receipe.model');
+const Recipe = require('../models/receipe.model');
 
-async function getAllRecipies(req, res) {
-    const receipe = await receipeModel.find({})
-    res.status(200).json(receipe)
-}
+const getAllRecipies = async (req, res) => {
+    try {
+        const recipes = await Recipe.find({});
+        res.json(recipes);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
-async function getCertailRecipies(req, res) {
-    const id = req.params.id
-    const receipe = await receipeModel.find({
-        title:id
-    })
-    res.status(200).json(receipe)
-}
+const getRecipeById = async (req, res) => {
+    const title = req.params.id;
+    try {
+        const recipe = await Recipe.findOne({title});
+        if (!recipe) return res.status(404).json({ message: 'Recipe not found' });
+        res.json(recipe);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
 
-async function recipieSearch(req, res) {
+const searchRecipes = async (req, res) => {
     const value = req.params.id;
     let query='';
     try {
             if(isNaN(value%2)) {
+                const arr = value.split(',').map(item => item.trim());
                 query = {
                     $or: [
                         { title: value },
-                        { ingredients: value },
-                        { instructions: value }
+                        { ingredients: {$all: arr} }
                     ]
                 };
             }else{
                 query = { sustainabilityRating : value}
             }
-        const results = await receipeModel.find(query);
-        console.log(results)
-        res.send(results);
+        const results = await Recipe.find(query);
+        res.json(results);
     } catch (err) {
-        res.send(err)
-        console.log(err)
+        res.status(500).json({ error: err.message });
     }
+};
 
-}
-module.exports = { getAllRecipies, getCertailRecipies, recipieSearch }
+const addRecipe = async (req, res) => {
+    const userId = req.user;
+    const { title, ingredients, instructions, sustainabilityRating } = req.body;
+
+    try {
+        const recipe = new Recipe({ user: userId, title, ingredients, instructions, sustainabilityRating });
+        await recipe.save();
+        res.json(recipe);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { getAllRecipies, getRecipeById, searchRecipes, addRecipe };

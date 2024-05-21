@@ -1,21 +1,25 @@
-const { parse } = require('dotenv');
-const foodModel = require('../models/food.model')
+const Food = require('../models/food.model');
 
-async function getAllFoods(req, res) {
+const getAllFoods = async (req, res) => {
     try {
-        const data = await foodModel.find({});
-        if (!data)
-            res.status(400).send("Empty Students Data");
-        else {
-            res.status(200).json(data);
-        }
+        const foods = await Food.find({});
+        res.json(foods);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-    catch (err) {
-        console.log(err);
-    }
+};
 
-}
-async function getFood(req, res) {
+const getFoodbyID = async (req, res) => {
+    try {
+        const food = await Food.findById(req.params.id);
+        if (!food) return res.status(404).json({ message: 'Food not found' });
+        res.json(food);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const getFood = async (req, res) => {
     const value = req.params.id;
     let query='';
     try {
@@ -29,25 +33,33 @@ async function getFood(req, res) {
             }else{
                 query = { sustainabilityRating : value}
             }
-        const results = await foodModel.find(query);
-        console.log(results)
-        res.send(results);
+        const results = await Food.find(query);
+        res.json(results);
     } catch (err) {
-        res.send(err)
-        console.log(err)
+        res.status(500).json({ error: err.message });
     }
-}
+};
 
-async function getFoodbyID(req, res) {
-    const name = req.params.id;
-    const data = await foodModel.findOne({ name });
-
-    if (!data) {
-        res.status(400).json({ message: "No food Found" })
+const getSeasonalFood = async (req, res) => {
+    const season = req.params.season;
+    try {
+        const foods = await Food.find({ season });
+        res.json(foods);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-    else {
-        res.status(200).json(data);
-    }
-}
+};
 
-module.exports = { getAllFoods, getFood, getFoodbyID }
+const createFoods = async (req, res) => {
+    const { name, sustainabilityRating, season } = req.body;
+    const userId = req.user;
+    try {
+        // const food = new Food({ user: userId, name, sustainabilityRating, season });
+        const food = await Food.create({ user: userId, name, sustainabilityRating, season });
+        res.json(food);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { getAllFoods, getFoodbyID, getFood, getSeasonalFood, createFoods };

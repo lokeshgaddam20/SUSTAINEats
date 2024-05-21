@@ -1,13 +1,16 @@
-const { urlencoded } = require('body-parser')
 const express = require('express')
 const routes = express.Router()
-const { getAllFoods, getFood, getFoodbyID, getSeasonalFood}=require('../controller/food.controller')
+const { getAllFoods, getFood, getFoodbyID, getSeasonalFood, createFoods}=require('../controller/food.controller')
+const { protect } = require('../middleware/auth')
 
 routes.use(express.json())
 routes.use(express.urlencoded({extended: true}))
 
-routes.get('/',getAllFoods)
-routes.get('/:id',getFoodbyID)
-routes.get('/search/:id',getFood)
+routes.get('/',protect, getAllFoods)
+routes.get('/:id',protect,getFoodbyID)
+routes.get('/search/:id',protect,getFood)
+routes.get('/seasonal/:season',protect,getSeasonalFood)
+
+routes.post('/',protect, createFoods)
 
 module.exports = routes

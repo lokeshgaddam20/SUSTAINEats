@@ -1,13 +1,15 @@
 const express = require('express')
 const routes = express.Router()
-const {urlencoded} = require('body-parser')
-const {getMealPlanById,postMealPlan,updateMealPlan,deleteMealPlan} = require('../controller/meal.controller')
+const {getMealPlanById,createMealPlan,updateMealPlan,deleteMealPlan} = require('../controller/meal.controller')
+
+const { protect } = require('../middleware/auth')
+
 routes.use(express.json())
 routes.use(express.urlencoded({extended: true}))
 
-routes.get('/',getMealPlanById)
-routes.post('/:user',postMealPlan)
-routes.put('/:user',updateMealPlan)
-routes.delete('/:user',deleteMealPlan)
+routes.get('/', protect ,getMealPlanById)
+routes.post('/', protect ,createMealPlan)
+routes.put('/:user', protect ,updateMealPlan)
+routes.delete('/:user', protect ,deleteMealPlan)
 
 module.exports = routes
