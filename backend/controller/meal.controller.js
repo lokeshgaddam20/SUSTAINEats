@@ -6,23 +6,21 @@ const createMealPlan = async (req, res) => {
     const { name } = req.body;
     const userId = req.user;
     try {
-        // Fetch all recipes from the database
-        const recipes = await Recipe.find({}, '_id'); // Fetch only the _id field
+        // Fetch all recipes created by the user from the database
+        const recipes = await Recipe.find({ user: userId }, '_id');
         
-        // Extract recipe IDs as an array of strings
-        const recipeIds = recipes.map(recipe => recipe._id.toString());
-        
-        // Create a new MealPlan instance with user ID, name, recipes, and date
-        // const mealPlan = new MealPlan();
-        
-        // Save the new meal plan to the database
-        const mealPlan=await MealPlan.create({ user: userId, name, recipes: recipeIds, date });
-        
-        res.json(mealPlan);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
+         // Extract recipe IDs as an array of ObjectIds
+         const recipeIds = recipes.map(recipe => recipe._id);
+
+         // Create a new MealPlan instance with user ID, name, recipes, and date
+         const mealPlan = await MealPlan.create({ user: userId, name, recipes: recipeIds });
+ 
+         // Respond with the created meal plan
+         res.json(mealPlan);
+     } catch (err) {
+         res.status(500).json({ error: err.message });
+     }
+ };
 
 const getMealPlans = async (req, res) => {
     try {

@@ -33,7 +33,14 @@ const loginAction = async (req, res) => {
 };
 
 const logoutAction = (req, res) => {
+    // console.log(req.headers.authorization);
+    // console.log(req.user)
+    // console.log("---In LOgOut Action");
+    res.clearCookie(req.headers.authorization.split(' ')[1]); // Assuming 'token' is the name of your auth cookie
     res.json({ message: 'Logged out successfully' });
+    req.user = null; 
+    // console.log(req.headers.authorization + " " +   req.user)
 };
+
 
 module.exports = { signupAction, loginAction, logoutAction };

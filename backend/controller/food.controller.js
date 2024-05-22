@@ -2,7 +2,7 @@ const Food = require('../models/food.model');
 
 const getAllFoods = async (req, res) => {
     try {
-        const foods = await Food.find({});
+        const foods = await Food.find({user : req.user});
         res.json(foods);
     } catch (err) {
         res.status(500).json({ error: err.message });
