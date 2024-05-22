@@ -19,14 +19,14 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://127.0.0.1:5500'
+    origin: 'http://localhost:3000'
 }));
 
 
 app.use("/api/auth", authRoute);
 app.use("/api/foods", foodRoute);
 app.use("/api/recipes", receipeRoute);
-app.use("/api/meal-plans", mealRoute);
+app.use("/api/meals", mealRoute);
 app.use("/api/carbon-footprint", carbonRoute);
 
 const PORT = process.env.PORT || 8800;
