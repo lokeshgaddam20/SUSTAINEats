@@ -1,33 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import api from '../../api';
+import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import { AuthContext } from '../auth/AuthContext';
 
 const RecipeDetail = () => {
-    const { id } = useParams();
-    const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] = useState(null);
+  const { token } = useContext(AuthContext);
 
-    useEffect(() => {
-        const fetchRecipe = async () => {
-            try {
-                const response = await api.get(`/recipes/${id}`);
-                setRecipe(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchRecipe();
-    }, [id]);
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8800/api/recipes/`,{headers: {Authorization: `Bearer ${token}` }});
+        console.log(response.data);
+        setRecipe(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRecipe();
+  },[token]);
 
-    if (!recipe) return <div>Loading...</div>;
+  if (!recipe) return <div>Loading...</div>;
 
-    return (
-        <div>
-            <h1>{recipe.title}</h1>
-            <p>Ingredients: {recipe.ingredients.join(', ')}</p>
-            <p>Instructions: {recipe.instructions}</p>
-            <p>Sustainability Rating: {recipe.sustainabilityRating}</p>
+  return (
+    <div>
+      {recipe.map((recipeItem, index) => (
+        <div key={index}>
+          <h1>{recipeItem.meal}</h1>
+          <p>Title: {recipeItem.title}</p>
+          <p>Ingredients: {recipeItem.ingredients}</p>
+          <p>instructions: {recipeItem.instructions}</p>
+          <p>sustainabilityRating: {recipeItem.sustainabilityRating}</p>
         </div>
-    );
+      ))}
+    </div>
+  );
 };
 
 export default RecipeDetail;

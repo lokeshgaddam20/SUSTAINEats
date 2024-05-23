@@ -1,24 +1,22 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-import { ToastContainer, toast, Slide } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthProvider from "./components/auth/AuthContext";
 
 import Home from "./Home";
 import Food from "./components/food/FoodDetail";
-// import Recipes from "./components/recipes/RecipeDetail"
 import Meals from "./components/mealplans/MealPlanDetail";
-import AuthProvider from "./components/auth/AuthContext";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 import LogoutButton from "./components/auth/LogoutButton";
+import RecipeDetail from "./components/recipes/RecipeDetail";
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
-        {" "}
-        {/* Move Router here */}
         <div>
           <nav>
             <ul>
@@ -50,7 +48,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/foods" element={<Food />} />
-            <Route path="/recipes" element={<Home />} />
+            <Route path="/recipes" element={<RecipeDetail />} />
             <Route path="/meals" element={<Meals />} />
           </Routes>
         </div>

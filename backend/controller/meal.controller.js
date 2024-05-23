@@ -7,7 +7,7 @@ const createMealPlan = async (req, res) => {
     const userId = req.user;
     try {
         // Fetch all recipes created by the user from the database
-        const recipes = await Recipe.find({ user: userId }, 'title');
+        const recipes = await Recipe.find({ user: userId, meal: name }, 'title');
         
          // Extract recipe IDs as an array of ObjectIds
          const recipeIds = recipes.map(recipe => recipe.title);
