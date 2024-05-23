@@ -44,10 +44,10 @@ const searchRecipes = async (req, res) => {
 
 const addRecipe = async (req, res) => {
     const userId = req.user;
-    const { title, ingredients, instructions, sustainabilityRating } = req.body;
+    const { meal, title, ingredients, instructions, sustainabilityRating } = req.body;
 
     try {
-        const recipe = new Recipe({ user: userId, title, ingredients, instructions, sustainabilityRating });
+        const recipe = new Recipe({ user: userId, meal, title, ingredients, instructions, sustainabilityRating });
         await recipe.save();
         res.json(recipe);
     } catch (err) {

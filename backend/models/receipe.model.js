@@ -6,6 +6,10 @@ const receipeSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    meal:{
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true
