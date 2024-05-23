@@ -7,10 +7,10 @@ const createMealPlan = async (req, res) => {
     const userId = req.user;
     try {
         // Fetch all recipes created by the user from the database
-        const recipes = await Recipe.find({ user: userId }, '_id');
+        const recipes = await Recipe.find({ user: userId }, 'title');
         
          // Extract recipe IDs as an array of ObjectIds
-         const recipeIds = recipes.map(recipe => recipe._id);
+         const recipeIds = recipes.map(recipe => recipe.title);
 
          // Create a new MealPlan instance with user ID, name, recipes, and date
          const mealPlan = await MealPlan.create({ user: userId, name, recipes: recipeIds });
@@ -20,37 +20,33 @@ const createMealPlan = async (req, res) => {
      } catch (err) {
          res.status(500).json({ error: err.message });
      }
- };
+ };`    `
 
-const getMealPlans = async (req, res) => {
+ async function getMealPlan(req, res) {
     try {
-        const mealPlans = await MealPlan.find({ user: req.user._id }).populate('recipes');
-        res.json(mealPlans);
+        const meal = await MealPlan.find({user : req.user});
+        res.json(meal);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: err.message });
     }
-};
+}
 
-const getMealPlanById = async (req, res) => {
-    try {
-        const mealPlan = await MealPlan.findById(req.params.id).populate('recipes');
-        if (!mealPlan) return res.status(404).json({ message: 'Meal plan not found' });
-        res.json(mealPlan);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-};
+// const getMealPlanById = async (req, res) => {
+//     try {
+//         const mealPlan = await MealPlan.findById(req.params.id).populate('recipes');
+//         if (!mealPlan) return res.status(404).json({ message: 'Meal plan not found' });
+//         res.json(mealPlan);
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };
 
 const updateMealPlan = async (req, res) => {
-    const { name, recipes } = req.body;
+    const { recipes } = req.body;
 
     try {
-        const mealPlan = await MealPlan.findById(req.params.id);
+        const mealPlan = await MealPlan.findOneAndUpdate({user : req.user, name : req.params.name}, { recipes }, {new: true});
         if (!mealPlan) return res.status(404).json({ message: 'Meal plan not found' });
-
-        mealPlan.name = name || mealPlan.name;
-        mealPlan.recipes = recipes || mealPlan.recipes;
-        await mealPlan.save();
 
         res.json(mealPlan);
     } catch (err) {
@@ -60,14 +56,13 @@ const updateMealPlan = async (req, res) => {
 
 const deleteMealPlan = async (req, res) => {
     try {
-        const mealPlan = await MealPlan.findById(req.params.id);
+        const mealPlan = await MealPlan.findOneAndUpdate({user: req.user, name : req.params.name}, {recipes : []}, {new: true});
         if (!mealPlan) return res.status(404).json({ message: 'Meal plan not found' });
 
-        await mealPlan.remove();
-        res.json({ message: 'Meal plan deleted' });
+        // await mealPlan.remove();
+        res.json({ message: 'Meal plan deleted', mealPlan });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
-
-module.exports = { createMealPlan, getMealPlans, getMealPlanById, updateMealPlan, deleteMealPlan };
+module.exports = { getMealPlan, createMealPlan,  updateMealPlan, deleteMealPlan };

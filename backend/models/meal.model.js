@@ -12,7 +12,7 @@ const mealPlanSchema = new mongoose.Schema({
     },
     recipes: [
         {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             ref: 'Recipe'
         }
     ],
