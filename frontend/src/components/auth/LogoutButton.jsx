@@ -3,6 +3,8 @@ import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@/components/ui/button';
+
 const LogoutButton = () => {
   const { token, logout } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ const LogoutButton = () => {
     }
   };
 
-  return <button onClick={handleLogout}>Logout</button>;
+  return <Button onClick={handleLogout}>Logout</Button>;
 };
 
 export default LogoutButton;

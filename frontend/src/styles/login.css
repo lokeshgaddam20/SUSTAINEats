@@ -1,0 +1,16 @@
+.login-img {
+    max-width: 50vh;
+    max-height: 100%;
+    height: auto;
+    border-radius: 20px;
+    object-fit: cover;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-container {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+  }

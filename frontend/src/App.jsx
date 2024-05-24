@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "./components/auth/AuthContext";
 
 import Home from "./Home";
@@ -10,39 +10,16 @@ import Food from "./components/food/FoodDetail";
 import Meals from "./components/mealplans/MealPlanDetail";
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
-import LogoutButton from "./components/auth/LogoutButton";
+
 import RecipeDetail from "./components/recipes/RecipeDetail";
+import { NavbarComp } from "./components/navbar/navbar"; // Import the NavbarComp component
 
 const App = () => {
   return (
     <AuthProvider>
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/login">Login</Link>
-              </li>
-              <li>
-                <Link to="/signup">Signup</Link>
-              </li>
-              <li>
-                <LogoutButton />
-              </li>
-              <li>
-                <Link to="/foods">Foods</Link>
-              </li>
-              <li>
-                <Link to="/recipes">Recipes</Link>
-              </li>
-              <li>
-                <Link to="/meals">Meals</Link>
-              </li>
-            </ul>
-          </nav>
+          <NavbarComp />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -52,7 +29,8 @@ const App = () => {
             <Route path="/meals" element={<Meals />} />
           </Routes>
         </div>
-        <ToastContainer
+        <Toaster />
+        {/* <ToastContainer
           position="top-center"
           autoClose={3000}
           hideProgressBar={false}
@@ -64,7 +42,7 @@ const App = () => {
           pauseOnHover
           theme="dark"
           transition={Slide}
-        />
+        /> */}
       </Router>
     </AuthProvider>
   );
