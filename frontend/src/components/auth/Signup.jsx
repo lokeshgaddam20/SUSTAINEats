@@ -52,11 +52,11 @@ const Signup = () => {
 
   return (
     <div className='login-container'>
-      <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+      <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[600px]">
         <div className="flex items-center justify-center py-12">
-          <Card className="mx-auto grid w-[350px] gap-6">
+          <Card className="mx-auto grid w-[400px] gap-6">
             <CardHeader>
-              <CardTitle className="text-3xl font-bold text-center">Sign Up</CardTitle>
+              <CardTitle className="text-3xl font-bold text-center">SignUp</CardTitle>
               
             </CardHeader>
             <CardContent>

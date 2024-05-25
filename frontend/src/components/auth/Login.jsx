@@ -48,9 +48,9 @@ function Login() {
 
   return (
     <div className='login-container'>
-      <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-        <div className="flex items-center justify-center py-12 rounded-lg border bg-card text-card-foreground shadow-sm">
-          <div className="mx-auto grid w-[350px] gap-6">
+      <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[600px]">
+        <div className="flex items-center justify-center py-12 rounded-lg bg-card text-card-foreground shadow-sm">
+          <div className="mx-auto grid w-full max-w-[400px] gap-6 p-6 rounded-lg border bg-background">
             <div className="grid gap-2 text-center">
               <h1 className="text-3xl font-bold">Login</h1>
               {/* <p className="text-balance text-muted-foreground">
@@ -101,7 +101,7 @@ function Login() {
             </div>
           </div>
         </div>
-        <div className="hidden lg:block lg:relative lg:overflow-hidden lg:rounded-lg">
+        <div className="hidden lg:block lg:relative lg:overflow-hidden lg:rounded-lg items-center">
           <img
             src={LoginImg}
             alt="Login"

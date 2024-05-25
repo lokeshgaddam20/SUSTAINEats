@@ -20,6 +20,13 @@ const foodSchema = new mongoose.Schema({
     }
 });
 
+foodSchema.pre('save', function(next) {
+    if (this.season) {
+        this.season = this.season.toLowerCase();
+    }
+    next();
+});
+
 const Food = mongoose.model('Food', foodSchema);
 
 module.exports = Food;

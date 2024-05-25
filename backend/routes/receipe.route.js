@@ -1,5 +1,4 @@
 const { urlencoded } = require('body-parser')
-const exp = require('constants')
 const express= require('express')
 const { getAllRecipies, getRecipeById, searchRecipes, addRecipe } = require('../controller/receipe.controller')
 const { protect } = require('../middleware/auth')
