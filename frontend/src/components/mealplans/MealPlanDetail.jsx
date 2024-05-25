@@ -2,36 +2,37 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
 
-const FoodDetail = () => {
-  const [food, setFood] = useState(null);
+const MealDetail = () => {
+  const [meal, setMeal] = useState(null);
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchFood = async () => {
+    const fetchMeal = async () => {
       try {
-        const response = await axios.get(`http://localhost:8800/api/meals/`,{headers: {Authorization: `Bearer ${localStorage.getItem('token')}}` }});
-        console.log(response.data);
-        setFood(response.data);
+        const response = await axios.get(`http://localhost:8800/api/meals /`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setMeal(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-    fetchFood();
-  },[token]);
+    fetchMeal();
+  }, [token]);
 
-  if (!food) return <div>Loading...</div>;
+  if (!meal) return <div>Loading...</div>;
 
   return (
     <div>
-      {food.map((foodItem, index) => (
+      {meal.map((mealItem, index) => (
         <div key={index}>
-          <h1>{foodItem.name}</h1>
-          <p>Recipes: {foodItem.recipes}</p>
-          <p>Date: {foodItem.date}</p>
+          <h1>{mealItem.name}</h1>
+          <p>Recipes: {mealItem.recipes}</p>
+          <p>Date: {mealItem.date}</p>
         </div>
       ))}
     </div>
   );
 };
 
-export default FoodDetail;
+export default MealDetail;

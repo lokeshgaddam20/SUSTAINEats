@@ -18,6 +18,10 @@ const menuItems = [
     {
         name: 'Meals',
         href: '/meals',
+    },
+    {
+        name: 'Dash',
+        href: '/table',
     }
 ]
 

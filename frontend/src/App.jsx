@@ -13,6 +13,9 @@ import Signup from "./components/auth/Signup";
 
 import RecipeDetail from "./components/recipes/RecipeDetail";
 import { NavbarComp } from "./components/navbar/navbar"; // Import the NavbarComp component
+import MealDetail from "./components/mealplans/MealPlanDetail";
+import { Dashboard } from "./components/carbon/Dashboard";
+// import Dashboard from "./components/carbon/Lawda";
 
 const App = () => {
   return (
@@ -26,7 +29,8 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/foods" element={<Food />} />
             <Route path="/recipes" element={<RecipeDetail />} />
-            <Route path="/meals" element={<Meals />} />
+            <Route path="/meals" element={<MealDetail />} />
+            <Route path="/table" element={<Dashboard/>} />
           </Routes>
         </div>
         <Toaster />
