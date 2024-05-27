@@ -55,8 +55,9 @@ const updateMealPlan = async (req, res) => {
 };
 
 const deleteMealPlan = async (req, res) => {
+    const { recipes } = req.body;
     try {
-        const mealPlan = await MealPlan.findOneAndUpdate({user: req.user, name : req.params.name}, {recipes : []}, {new: true});
+        const mealPlan = await MealPlan.findOneAndUpdate({user: req.user, name : req.params.name}, {recipes}, {new: true});
         if (!mealPlan) return res.status(404).json({ message: 'Meal plan not found' });
 
         // await mealPlan.remove();
@@ -65,4 +66,5 @@ const deleteMealPlan = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 module.exports = { getMealPlan, createMealPlan,  updateMealPlan, deleteMealPlan };

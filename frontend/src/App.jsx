@@ -6,16 +6,13 @@ import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "./components/auth/AuthContext";
 
 import Home from "./Home";
-import Food from "./components/food/FoodDetail";
-import Meals from "./components/mealplans/MealPlanDetail";
+import { NavbarComp } from "./components/navbar/navbar"; // Import the NavbarComp component
 import Login from "./components/auth/Login";
 import Signup from "./components/auth/Signup";
 
+import Food from "./components/food/FoodDetail";
 import RecipeDetail from "./components/recipes/RecipeDetail";
-import { NavbarComp } from "./components/navbar/navbar"; // Import the NavbarComp component
-import MealDetail from "./components/mealplans/MealPlanDetail";
-import { Dashboard } from "./components/carbon/Dashboard";
-// import Dashboard from "./components/carbon/Lawda";
+import MealPlan from "./components/mealplans/MealPlanDetail";
 
 const App = () => {
   return (
@@ -29,8 +26,7 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/foods" element={<Food />} />
             <Route path="/recipes" element={<RecipeDetail />} />
-            <Route path="/meals" element={<MealDetail />} />
-            <Route path="/table" element={<Dashboard/>} />
+            <Route path="/meals" element={<MealPlan />} />
           </Routes>
         </div>
         <Toaster />

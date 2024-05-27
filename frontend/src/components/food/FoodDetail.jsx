@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
-// import { Link } from "react-router-dom"
-import { Sun, Snowflake, Leaf, Flower2, Star, Salad, Search } from 'lucide-react';
-// import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, } from "@/components/ui/card"
-// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sun, Snowflake, Leaf, Flower2, Star, Salad, Search, PlusCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import AddFoodDialog from "./FoodAdd"; // Import the AddFoodDialog component
 
 const FoodDetail = () => {
   const [food, setFood] = useState([]);
@@ -46,6 +43,21 @@ const FoodDetail = () => {
     fetchFood();
   }, [token, searchTerm]);
 
+  const handleAddFood = async (newFood) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8800/api/foods/`,
+        newFood,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setFood((prevFood) => [...prevFood, response.data]);
+    } catch (error) {
+      console.error("Error adding food:", error);
+    }
+  };
+
   if (!food) return <div>Loading...</div>;
 
   return (
@@ -53,12 +65,13 @@ const FoodDetail = () => {
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
         <h2 className='text-md font-medium'>Foods</h2>
         <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+              <AddFoodDialog onSave={handleAddFood} />
           <form className="ml-auto flex-1 sm:flex-initial">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 type="search"
-                placeholder="Search products..."
+                placeholder="Search foods..."
                 className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useContext } from 'react';
-import { Link } from 'react-router-dom'
-import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom';
+import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
 import { AuthContext } from '@/components/auth/AuthContext';
 import LogoutButton from '../auth/LogoutButton';
 
@@ -19,30 +19,15 @@ const menuItems = [
         name: 'Meals',
         href: '/meals',
     },
-    {
-        name: 'Dash',
-        href: '/table',
-    }
-]
+];
 
 export function NavbarComp() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { isLoggedIn } = useContext(AuthContext);
-    //   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    //   useEffect(() => {
-    //       const token = localStorage.getItem('token');
-    //     // Check if user is logged in
-    //     // Replace this with your actual login check logic
-    //     if (token) {
-    //       setIsLoggedIn(true);
-    //     }
-    //     console.log("isLoggedIn ", isLoggedIn)
-    //   }, []);
 
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen)
-    }
+        setIsMenuOpen(!isMenuOpen);
+    };
 
     return (
         <div className="relative w-full bg-white">
@@ -68,16 +53,14 @@ export function NavbarComp() {
                     <ul className="ml-12 inline-flex space-x-8">
                         {isLoggedIn
                             ? menuItems.map((item) => (
-                                <>
-                                    <li key={item.name}>
-                                        <Link to={item.href} className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
-                                            {item.name}
-                                            <span>
-                                                <ChevronDown className="ml-2 h-4 w-4" />
-                                            </span>
-                                        </Link>
-                                    </li>
-                                </>
+                                <li key={item.name}>
+                                    <Link to={item.href} className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
+                                        {item.name}
+                                        <span>
+                                            <ChevronDown className="ml-2 h-4 w-4" />
+                                        </span>
+                                    </Link>
+                                </li>
                             ))
                             : (
                                 <li>
@@ -91,7 +74,6 @@ export function NavbarComp() {
                             )}
                     </ul>
                     {isLoggedIn && <LogoutButton />}
-
                 </div>
                 {!isLoggedIn && (
                     <div className="hidden space-x-2 lg:block">
@@ -135,82 +117,63 @@ export function NavbarComp() {
                                         <span className="font-bold">SustainEats</span>
                                     </div>
                                     <div className="-mr-2">
-                                        <button
-                                            type="button"
-                                            onClick={toggleMenu}
-                                            className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                        >
-                                            <span className="sr-only">Close menu</span>
-                                            <X className="h-6 w-6" aria-hidden="true" />
-                                        </button>
+                                        <X onClick={toggleMenu} className="h-8 w-6 cursor-pointer" />
                                     </div>
                                 </div>
                                 <div className="mt-6">
-                                    <nav className="grid gap-y-4">
-                                        {isLoggedIn
-                                            ? menuItems.map((item) => (
-                                                <>
-                                                    <Link
-                                                        key={item.name}
-                                                        to={item.href}
-                                                        className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold hover:bg-gray-50"
-                                                    >
-                                                        <span className="ml-3 text-base font-medium text-gray-900">
-                                                            {item.name}
-                                                        </span>
-                                                        <span>
-                                                            <ChevronRight className="ml-3 h-4 w-4" />
-                                                        </span>
-                                                    </Link>
-                                                </>
-                                            )) : (
-                                                <div className='flex items-center gap-3 justify-between'>
-                                                    <Link
-                                                        to="/home"
-                                                        className="w-48 rounded-md border border-black px-3 py-2 text-sm text-center font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                                    >
-                                                        Home
-                                                    </Link>
-                                                    <div className='flex items-center gap-5'>
-                                                    <Link
-                                                        to="/login"
-                                                        className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                                    >
-                                                        Log In
-                                                    </Link>
-                                                    <Link
-                                                        to="/signup"
-                                                        className="rounded-md border border-black bg-black hover:bg-black/90 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                                    >
-                                                        Sign Up
-                                                    </Link>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        {isLoggedIn && <LogoutButton />}
+                                    <nav className="grid gap-y-8">
+                                        {isLoggedIn ? (
+                                            menuItems.map((item) => (
+                                                <Link
+                                                    key={item.name}
+                                                    to={item.href}
+                                                    className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
+                                                >
+                                                    <span className="ml-3 text-base font-medium text-gray-900">
+                                                        {item.name}
+                                                    </span>
+                                                    <ChevronRight className="ml-auto h-5 w-5" />
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            <Link
+                                                to="/"
+                                                className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
+                                            >
+                                                <span className="ml-3 text-base font-medium text-gray-900">
+                                                    Home
+                                                </span>
+                                                <ChevronRight className="ml-auto h-5 w-5" />
+                                            </Link>
+                                        )}
                                     </nav>
                                 </div>
-                                {!isLoggedIn && (
-                                    <div className="hidden space-x-2 lg:block">
-                                        <Link
-                                            to="/login"
-                                            className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                        >
-                                            Log In
-                                        </Link>
+                            </div>
+                            {!isLoggedIn && (
+                                <div className="space-y-6 py-6 px-5">
+                                    <div>
                                         <Link
                                             to="/signup"
-                                            className="rounded-md border border-black bg-black hover:bg-black/90 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                                            className="flex w-full items-center justify-center rounded-md border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-black/90"
                                         >
                                             Sign Up
                                         </Link>
+                                        <p className="mt-6 text-center text-base font-medium text-gray-500">
+                                            Existing customer?
+                                            <Link
+                                                to="/login"
+                                                className="ml-1 text-black hover:text-black/90"
+                                            >
+                                                Log In
+                                            </Link>
+                                        </p>
                                     </div>
-                                )}
-                            </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
             </div>
         </div>
-    )
+    );
 }

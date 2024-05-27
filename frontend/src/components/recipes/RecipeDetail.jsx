@@ -13,6 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 
 import { RecipeView } from "./RecipeView";
+import AddRecipeDialog from "./RecipeAdd";
 
 const RecipeDetail = () => {
   const [recipe, setRecipe] = useState([]);
@@ -44,13 +45,29 @@ const RecipeDetail = () => {
     fetchRecipe();
   }, [token, searchTerm]);
 
+  const handleAddRecipe = async (newRecipe) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:8800/api/recipes/`,
+        newRecipe,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setRecipe((prevRecipes) => [...prevRecipes, response.data]);
+    } catch (error) {
+      console.error("Error adding recipe:", error);
+    }
+  };
+
   if (!recipe) return <div>Loading...</div>;
 
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
         <h2 className="text-md font-medium">Recipes</h2>
-        <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+        <div className="flex w-full items-center justify-items-end gap-4 md:ml-auto md:gap-2 lg:gap-4 bg-white">
+              <AddRecipeDialog onSave={handleAddRecipe} />
           <form className="ml-auto flex-1 sm:flex-initial">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
