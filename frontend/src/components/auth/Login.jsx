@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,7 @@ function Login() {
       const response = await axios.post('http://localhost:8800/api/auth/login', { email, password });
       const { token, user } = response.data;
       login(token, user.id ,true);
-      navigate('/recipes');
+      navigate('/');
       // toast.success('Login successful!');
       toast({
         title: "Login Successful"

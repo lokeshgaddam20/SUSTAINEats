@@ -8,6 +8,10 @@ import LogoutButton from '../auth/LogoutButton';
 
 const menuItems = [
     {
+        name: 'Home',
+        href: '/',
+    },
+    {
         name: 'Foods',
         href: '/foods',
     },
@@ -31,7 +35,7 @@ export function NavbarComp() {
 
     return (
         <div className="relative w-full bg-white">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-2">
                 <div className="inline-flex items-center space-x-3">
                     <span>
                         <svg
