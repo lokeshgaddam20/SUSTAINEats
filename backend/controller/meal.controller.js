@@ -20,7 +20,11 @@ const createMealPlan = async (req, res) => {
      } catch (err) {
          res.status(500).json({ error: err.message });
      }
- };`    `
+ };
+
+ const addRecipeToMeal = async (req, res) => {
+
+ }
 
  async function getMealPlan(req, res) {
     try {
@@ -67,4 +71,4 @@ const deleteMealPlan = async (req, res) => {
     }
 };
 
-module.exports = { getMealPlan, createMealPlan,  updateMealPlan, deleteMealPlan };
+module.exports = { getMealPlan, addRecipeToMeal, createMealPlan,  updateMealPlan, deleteMealPlan };

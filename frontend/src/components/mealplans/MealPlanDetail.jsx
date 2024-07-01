@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea } from "../ui/scroll-area";
 import { Actions } from "./Actions";
+import AddButton from "./AddButton";
 
 export default function MealPlan() {
   const [open, setOpen] = useState(false);
@@ -142,6 +143,27 @@ export default function MealPlan() {
     }
   };
 
+  const handleAddRecipe = async (mealType) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8800/api/meals/add-recipe`,
+        { mealName: mealType, recipeTitle: selectedRecipe },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setMeal((prevMeal) =>
+        prevMeal.map((plan) =>
+          plan.name === mealType ? { ...plan, recipes: [...plan.recipes, selectedRecipe] } : plan
+        )
+      );
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error("Error adding recipe:", error);
+    }
+  };
+  
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
@@ -162,6 +184,7 @@ export default function MealPlan() {
                     <CardHeader className="px-7">
                       <CardTitle>{mealType}</CardTitle>
                       <CardDescription>Eat healthy and enjoy!</CardDescription>
+                      <AddButton></AddButton>
                     </CardHeader>
                     <CardContent>
                       <Table>
