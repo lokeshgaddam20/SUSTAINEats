@@ -1,14 +1,21 @@
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 
 const Card = React.forwardRef(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("rounded-lg border bg-card text-card-foreground shadow-sm", className)}
+    className={cn("rounded-lg border bg-card text-card-foreground shadow-sm transition-transform duration-300 ease-in-out transform hover:scale-105", className)}
     {...props} />
 ))
 Card.displayName = "Card"
+
+const CardWithoutHover = React.forwardRef(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("rounded-lg border bg-card text-card-foreground shadow-sm", className)}
+    {...props} />
+))
+CardWithoutHover.displayName = "CardWithoutHover"
 
 const CardHeader = React.forwardRef(({ className, ...props }, ref) => (
   <div
@@ -47,4 +54,4 @@ const CardFooter = React.forwardRef(({ className, ...props }, ref) => (
 ))
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export { Card, CardWithoutHover, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }

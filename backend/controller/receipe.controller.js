@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Recipe = require('../models/receipe.model');
 
 const getAllRecipies = async (req, res) => {
@@ -47,11 +48,18 @@ const addRecipe = async (req, res) => {
     const { meal, title, ingredients, instructions, sustainabilityRating } = req.body;
 
     try {
-        const recipe = new Recipe({ user: userId, meal, title, ingredients, instructions, sustainabilityRating });
+        const emissionsResponse = await axios.post('/api/recipes/calculate-emissions', {
+            recipeName: title,
+        });
+
+        const carbon = emissionsResponse.data.emissions_total;
+
+        const recipe = new Recipe({ user: userId, meal, title, ingredients, instructions, sustainabilityRating, carbon });
         await recipe.save();
         res.json(recipe);
     } catch (err) {
         res.status(500).json({ error: err.message });
+        res.send(err)
     }
 };
 

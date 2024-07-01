@@ -2,7 +2,7 @@
 
 import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { AuthContext } from '@/components/auth/AuthContext';
 import LogoutButton from '../auth/LogoutButton';
 
@@ -33,6 +33,10 @@ export function NavbarComp() {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
     return (
         <div className="relative w-full bg-white">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-2">
@@ -58,21 +62,23 @@ export function NavbarComp() {
                         {isLoggedIn
                             ? menuItems.map((item) => (
                                 <li key={item.name}>
-                                    <Link to={item.href} className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
+                                    <Link
+                                        to={item.href}
+                                        className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-green-500 cursor-pointer "
+                                        onClick={closeMenu}
+                                    >
                                         {item.name}
-                                        <span>
-                                            <ChevronDown className="ml-2 h-4 w-4" />
-                                        </span>
                                     </Link>
                                 </li>
                             ))
                             : (
                                 <li>
-                                    <Link to="/" className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900">
+                                    <Link
+                                        to="/"
+                                        className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-green-500"
+                                        onClick={closeMenu}
+                                    >
                                         Home
-                                        <span>
-                                            <ChevronDown className="ml-2 h-4 w-4" />
-                                        </span>
                                     </Link>
                                 </li>
                             )}
@@ -84,12 +90,14 @@ export function NavbarComp() {
                         <Link
                             to="/login"
                             className="rounded-md bg-transparent px-3 py-2 text-sm font-semibold text-black hover:bg-black/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                            onClick={closeMenu}
                         >
                             Log In
                         </Link>
                         <Link
                             to="/signup"
                             className="rounded-md border border-black bg-black hover:bg-black/90 px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                            onClick={closeMenu}
                         >
                             Sign Up
                         </Link>
@@ -120,60 +128,57 @@ export function NavbarComp() {
                                         </span>
                                         <span className="font-bold">SustainEats</span>
                                     </div>
-                                    <div className="-mr-2">
-                                        <X onClick={toggleMenu} className="h-8 w-6 cursor-pointer" />
-                                    </div>
+                                    <X onClick={toggleMenu} className="h-8 w-6 cursor-pointer" />
                                 </div>
                                 <div className="mt-6">
                                     <nav className="grid gap-y-8">
-                                        {isLoggedIn ? (
-                                            menuItems.map((item) => (
+                                        {isLoggedIn
+                                            ? menuItems.map((item) => (
                                                 <Link
                                                     key={item.name}
                                                     to={item.href}
-                                                    className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
+                                                    className="-m-3 flex items-center rounded-md p-3 text-base font-semibold text-gray-800 hover:text-green-500"
+                                                    onClick={closeMenu}
                                                 >
-                                                    <span className="ml-3 text-base font-medium text-gray-900">
-                                                        {item.name}
-                                                    </span>
-                                                    <ChevronRight className="ml-auto h-5 w-5" />
+                                                    {item.name}
                                                 </Link>
                                             ))
-                                        ) : (
-                                            <Link
-                                                to="/"
-                                                className="-m-3 flex items-center rounded-md p-3 hover:bg-gray-50"
-                                            >
-                                                <span className="ml-3 text-base font-medium text-gray-900">
+                                            : (
+                                                <Link
+                                                    to="/"
+                                                    className="-m-3 flex items-center rounded-md p-3 text-base font-semibold text-gray-800 hover:text-green-500"
+                                                    onClick={closeMenu}
+                                                >
                                                     Home
-                                                </span>
-                                                <ChevronRight className="ml-auto h-5 w-5" />
-                                            </Link>
+                                                </Link>
+                                            )}
+                                        {isLoggedIn && (
+                                            <div className="mt-4">
+                                                <LogoutButton />
+                                            </div>
                                         )}
                                     </nav>
                                 </div>
-                            </div>
-                            {!isLoggedIn && (
-                                <div className="space-y-6 py-6 px-5">
-                                    <div>
-                                        <Link
-                                            to="/signup"
-                                            className="flex w-full items-center justify-center rounded-md border border-transparent bg-black px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-black/90"
-                                        >
-                                            Sign Up
-                                        </Link>
-                                        <p className="mt-6 text-center text-base font-medium text-gray-500">
-                                            Existing customer?
+                                {!isLoggedIn && (
+                                    <div className="space-y-6 bg-gray-50 px-5 py-6 sm:space-y-8 sm:px-8">
+                                        <div>
                                             <Link
-                                                to="/login"
-                                                className="ml-1 text-black hover:text-black/90"
+                                                to="/signup"
+                                                className="flex w-full items-center justify-center rounded-md border border-transparent bg-black px-4 py-2 text-base font-semibold text-white shadow-sm hover:bg-opacity-90"
+                                                onClick={closeMenu}
                                             >
-                                                Log In
+                                                Sign up
                                             </Link>
-                                        </p>
+                                            <p className="mt-6 text-center text-base font-medium text-gray-500">
+                                                Existing customer?
+                                                <Link to="/login" className="ml-2 text-black hover:text-green-500" onClick={closeMenu}>
+                                                    Log in
+                                                </Link>
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
                     </div>
                 )}

@@ -25,6 +25,9 @@ const receipeSchema = new mongoose.Schema({
     sustainabilityRating: {
         type: Number,
         required: true
+    },
+    carbon: {
+        type: Number
     }
 });
 

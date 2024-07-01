@@ -8,7 +8,7 @@ import { MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
+  CardWithoutHover,
   CardContent,
   CardDescription,
   CardFooter,
@@ -158,7 +158,7 @@ export default function MealPlan() {
               </div>
               {["Breakfast", "Lunch", "Snack", "Dinner"].map((mealType) => (
                 <TabsContent key={mealType} value={mealType}>
-                  <Card>
+                  <CardWithoutHover>
                     <CardHeader className="px-7">
                       <CardTitle>{mealType}</CardTitle>
                       <CardDescription>Eat healthy and enjoy!</CardDescription>
@@ -233,7 +233,7 @@ export default function MealPlan() {
                         </TableBody>
                       </Table>
                     </CardContent>
-                  </Card>
+                  </CardWithoutHover>
                 </TabsContent>
               ))}
             </Tabs>
