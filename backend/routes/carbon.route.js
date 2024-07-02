@@ -8,6 +8,6 @@ const {calculateCarbonFootPrint} = require('../controller/carbon.controller')
 routes.use(express.json())
 routes.use(express.urlencoded({extended: true}))
 
-routes.post('/',protect,calculateCarbonFootPrint)
+routes.post('/',calculateCarbonFootPrint)
 
 module.exports = routes

@@ -2,19 +2,21 @@ import { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AuthContext } from "../auth/AuthContext";
 import {
-  Badge,
-  Button,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Separator
+} from "@/components/ui/popover";
+
+import { Button } from "@/components/ui/button";
+import {
   Command,
   CommandList,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Separator
-} from "@/components/ui";
+} from "@/components/ui/command";
 
 import { CirclePlus, Check } from "lucide-react";
 import { cn } from "@/lib/utils";

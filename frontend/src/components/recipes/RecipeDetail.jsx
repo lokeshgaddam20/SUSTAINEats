@@ -6,6 +6,7 @@ import {
   Star,
   Soup,
   Search,
+  Leaf
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -118,6 +119,13 @@ const RecipeDetail = () => {
                     ))}
                   </div>
                 </ScrollArea>
+                <div className="flex">
+                <Leaf/>
+                <p className="pl-2 text-lg font-medium ">
+                    {(recipeItem.carbon * 1000).toFixed(1)} 
+                    <span className="text-muted-foreground text-sm pl-1">gCO2e</span>
+                  </p>
+                </div>
                 <RecipeView recipe={recipeItem}/>
               </CardContent>
             </Card>
