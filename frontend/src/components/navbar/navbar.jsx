@@ -8,10 +8,6 @@ import LogoutButton from '../auth/LogoutButton';
 
 const menuItems = [
     {
-        name: 'Home',
-        href: '/',
-    },
-    {
         name: 'Foods',
         href: '/foods',
     },

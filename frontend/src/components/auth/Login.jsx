@@ -29,7 +29,7 @@ function Login() {
       const response = await axios.post('http://localhost:8800/api/auth/login', { email, password });
       const { token, user } = response.data;
       login(token, user.id ,true);
-      navigate('/');
+      navigate('/foods');
       // toast.success('Login successful!');
       toast({
         title: "Login Successful"
