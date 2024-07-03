@@ -62,4 +62,16 @@ const createFoods = async (req, res) => {
     }
 };
 
-module.exports = { getAllFoods, getFoodbyID, getFood, getSeasonalFood, createFoods };
+const deleteFoods = async (req, res) => {
+    const name = req.params.name;
+    try {
+        const food = await Food.findOneAndDelete({ name, user: req.user });
+        console.log(food)
+        if (!food) return res.status(404).json({ message: 'Food not found' });
+        res.json({ message: 'Food deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { getAllFoods, getFoodbyID, getFood, getSeasonalFood, createFoods, deleteFoods };

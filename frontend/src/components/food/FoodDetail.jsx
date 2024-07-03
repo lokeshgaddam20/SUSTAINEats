@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../auth/AuthContext';
-import { Sun, Snowflake, Leaf, Flower2, Star, Salad, Search, PlusCircle } from 'lucide-react';
+import { Sun, Snowflake, Leaf, Flower2, Star, Salad, Search, PlusCircle , Trash} from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
 import AddFoodDialog from "./FoodAdd"; // Import the AddFoodDialog component
 
 const FoodDetail = () => {
@@ -58,6 +59,17 @@ const FoodDetail = () => {
     }
   };
 
+  const handleDeleteFood = async (foodName) => {
+    try {
+      await axios.delete(`http://localhost:8800/api/foods/${foodName}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setFood((prevFoods) => prevFoods.filter(food => food.name !== foodName));
+    } catch (error) {
+      console.error("Error deleting food:", error);
+    }
+  };
+
   if (!food) return <div>Loading...</div>;
 
   return (
@@ -88,16 +100,24 @@ const FoodDetail = () => {
                 <CardTitle className="text-2xl font-bold">
                   {foodItem.name}
                 </CardTitle>
-                <Salad />
+                <Salad color='green'/>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-2 text-md font-medium">
                   <Star /><p className='text-lg font-medium'> {foodItem.sustainabilityRating}</p>
                 </div>
+                <div className='flex justify-between'>
                 <p className=" flex items-center gap-3 text-md text-muted-foreground">
                   {foodItem.season.charAt(0).toUpperCase() + foodItem.season.slice(1)}
                   <SeasonIcon season={foodItem.season} />
                 </p>
+                <Button
+                  variant="outline" className="p-4"
+                  onClick={() => handleDeleteFood(foodItem.name)}
+                >
+                  <Trash size={20} color='red'/>
+                </Button>
+                </div>
               </CardContent>
             </Card>
           ))}

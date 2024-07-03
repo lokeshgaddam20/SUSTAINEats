@@ -6,7 +6,8 @@ import {
   Star,
   Soup,
   Search,
-  Leaf
+  Leaf,
+  Trash
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 
 import { RecipeView } from "./RecipeView";
 import AddRecipeDialog from "./RecipeAdd";
+import { Button } from "../ui/button";
 
 const RecipeDetail = () => {
   const [recipe, setRecipe] = useState([]);
@@ -58,6 +60,27 @@ const RecipeDetail = () => {
       setRecipe((prevRecipes) => [...prevRecipes, response.data]);
     } catch (error) {
       console.error("Error adding recipe:", error);
+    }
+  };
+
+  const handleDeleteRecipe = async (recipeName) => {
+    try {
+      await axios.delete(`http://localhost:8800/api/recipes/${recipeName}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setRecipe((prevRecipes) => prevRecipes.filter(recipe => recipe.title !== recipeName));
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+  };
+
+  const getColorClass = (carbonValue) => {
+    if (carbonValue < 200) {
+      return "text-green-500";
+    } else if (carbonValue >= 200 && carbonValue <= 1000) {
+      return "text-orange-400";
+    } else {
+      return "text-red-500";
     }
   };
 
@@ -121,12 +144,22 @@ const RecipeDetail = () => {
                 </ScrollArea>
                 <div className="flex pb-2">
                 <Leaf/>
-                <p className="pl-2 text-lg font-medium ">
+                <p className={`pl-2 text-lg font-medium ${getColorClass(recipeItem.carbon * 1000)}`}>
                     {(recipeItem.carbon * 1000).toFixed(1)} 
                     <span className="text-muted-foreground text-sm pl-1">gCO2e</span>
                   </p>
                 </div>
+                <div className="flex pb-2 justify-between">
                 <RecipeView recipe={recipeItem}/>
+                <Button
+                  variant="outline" className="p-4"
+                  onClick={() => handleDeleteRecipe(recipeItem.title)}
+                >
+                  <Trash size={20} color="red"/>
+                  <span className="p-2">Delete</span>
+                </Button>
+                </div>
+                
               </CardContent>
             </Card>
           ))}
