@@ -119,7 +119,7 @@ const RecipeDetail = () => {
                     ))}
                   </div>
                 </ScrollArea>
-                <div className="flex">
+                <div className="flex pb-2">
                 <Leaf/>
                 <p className="pl-2 text-lg font-medium ">
                     {(recipeItem.carbon * 1000).toFixed(1)} 

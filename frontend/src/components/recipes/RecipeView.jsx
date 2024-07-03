@@ -20,7 +20,7 @@ export function RecipeView({ recipe }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className="pt-8">View Recipe</Button>
+        <Button variant="outline" className="p-4">View Recipe</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>

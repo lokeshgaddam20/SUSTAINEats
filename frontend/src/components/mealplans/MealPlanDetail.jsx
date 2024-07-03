@@ -49,6 +49,7 @@ export default function MealPlan() {
   const [value, setValue] = useState("");
   const [recipes, setRecipe] = useState([]);
   const [meal, setMeal] = useState([]);
+  const [selectedRecipe, setSelectedRecipe] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const { token } = useContext(AuthContext);
 
@@ -83,7 +84,9 @@ export default function MealPlan() {
       const mealPlan = meal.find((plan) => plan.name === mealName);
       if (mealPlan) {
         const updatedRecipes = mealPlan.recipes.map((recipeTitle) =>
-          recipeTitle === updatedRecipe.prevTitle ? updatedRecipe.title : recipeTitle
+          recipeTitle === updatedRecipe.prevTitle
+            ? updatedRecipe.title
+            : recipeTitle
         );
 
         await axios.put(
@@ -102,7 +105,9 @@ export default function MealPlan() {
 
         setRecipe((prevRecipes) =>
           prevRecipes.map((recipe) =>
-            recipe.title === updatedRecipe.prevTitle ? { ...recipe, title: updatedRecipe.title } : recipe
+            recipe.title === updatedRecipe.prevTitle
+              ? { ...recipe, title: updatedRecipe.title }
+              : recipe
           )
         );
       }
@@ -143,26 +148,28 @@ export default function MealPlan() {
     }
   };
 
-  const handleAddRecipe = async (mealType) => {
+  const handleAddRecipe = async (mealType, newRecipe) => {
+    console.log(mealType, newRecipe);
     try {
       const response = await axios.put(
-        `http://localhost:8800/api/meals/add-recipe`,
-        { mealName: mealType, recipeTitle: selectedRecipe },
+        `http://localhost:8800/api/meals/recipe/add-recipe`,
+        { mealName: mealType, recipeTitle: newRecipe },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      console.log(response);
       setMeal((prevMeal) =>
         prevMeal.map((plan) =>
-          plan.name === mealType ? { ...plan, recipes: [...plan.recipes, selectedRecipe] } : plan
+          plan.name === mealType
+            ? { ...plan, recipes: [...plan.recipes, newRecipe] }
+            : plan
         )
       );
-      setIsDialogOpen(false);
     } catch (error) {
       console.error("Error adding recipe:", error);
     }
   };
-  
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
@@ -181,10 +188,15 @@ export default function MealPlan() {
               {["Breakfast", "Lunch", "Snack", "Dinner"].map((mealType) => (
                 <TabsContent key={mealType} value={mealType}>
                   <CardWithoutHover>
-                    <CardHeader className="px-7">
-                      <CardTitle>{mealType}</CardTitle>
-                      <CardDescription>Eat healthy and enjoy!</CardDescription>
-                      <AddButton></AddButton>
+                    <CardHeader className="px-7 flex">
+                      <div>
+                        <CardTitle>{mealType}</CardTitle>
+                        <CardDescription>
+                          Eat healthy and enjoy!
+                        </CardDescription>
+                      </div>
+                      <AddButton mealType={mealType} onSave={handleAddRecipe} />
+                      {/* <Button onClick={() => handleAddRecipe(mealType)}>Add Recipe</Button> */}
                     </CardHeader>
                     <CardContent>
                       <Table>
@@ -205,53 +217,58 @@ export default function MealPlan() {
                           {meal
                             .filter((mealPlan) => mealPlan.name === mealType)
                             .flatMap((mealPlan) =>
-                              mealPlan.recipes.map((recipeTitle, index) => {
-                                const recipe = recipes.find(
-                                  (r) =>
-                                    r.title === recipeTitle &&
-                                    r.meal === mealPlan.name
-                                );
-                                return recipe ? (
-                                  <TableRow key={index}>
-                                    <TableCell>{recipe.title}</TableCell>
-                                    <TableCell>
-                                      {recipe.ingredients.length}
-                                    </TableCell>
-                                    <TableCell className="hidden md:table-cell">
-                                      {new Date(
-                                        mealPlan.date
-                                      ).toLocaleDateString()}
-                                    </TableCell>
-                                    <TableCell>0</TableCell>
-                                    <TableCell>
-                                    <Dialogue
-                                        recipe={recipe}
-                                        onSave={(updatedRecipe) =>
-                                          handleUpdateRecipe(
-                                            updatedRecipe,
-                                            mealPlan.name
-                                          )
-                                        }
-                                      />
-                                      <Actions
-                                        recipe={recipe}
-                                        onDelete={(recipe) =>
-                                          handleDeleteRecipe(
-                                            recipe.title,
-                                            mealPlan.name
-                                          )
-                                        }
-                                      />
-                                    </TableCell>
-                                  </TableRow>
-                                ) : (
-                                  <TableRow>
-                                    <TableCell className="h-24 text-center">
-                                      No results.
-                                    </TableCell>
-                                  </TableRow>
-                                );
-                              })
+                              mealPlan.recipes.length > 0 ? (
+                                mealPlan.recipes.map((recipeTitle, index) => {
+                                  const recipe = recipes.find(
+                                    (r) =>
+                                      r.title === recipeTitle &&
+                                      r.meal === mealPlan.name
+                                  );
+                                  return recipe ? (
+                                    <TableRow key={index}>
+                                      <TableCell>{recipe.title}</TableCell>
+                                      <TableCell>
+                                        {recipe.ingredients.length}
+                                      </TableCell>
+                                      <TableCell className="hidden md:table-cell">
+                                        {new Date(
+                                          mealPlan.date
+                                        ).toLocaleDateString()}
+                                      </TableCell>
+                                      <TableCell>{(recipe.carbon*1000).toFixed(1)}</TableCell>
+                                      <TableCell>
+                                        <Dialogue
+                                          recipe={recipe}
+                                          onSave={(updatedRecipe) =>
+                                            handleUpdateRecipe(
+                                              updatedRecipe,
+                                              mealPlan.name
+                                            )
+                                          }
+                                        />
+                                        <Actions
+                                          recipe={recipe}
+                                          onDelete={(recipe) =>
+                                            handleDeleteRecipe(
+                                              recipe.title,
+                                              mealPlan.name
+                                            )
+                                          }
+                                        />
+                                      </TableCell>
+                                    </TableRow>
+                                  ) : null;
+                                })
+                              ) : (
+                                <TableRow key="no-results">
+                                  <TableCell
+                                    className="h-24 text-center"
+                                    colSpan={5}
+                                  >
+                                    No results.
+                                  </TableCell>
+                                </TableRow>
+                              )
                             )}
                         </TableBody>
                       </Table>

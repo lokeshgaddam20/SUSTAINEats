@@ -23,8 +23,28 @@ const createMealPlan = async (req, res) => {
  };
 
  const addRecipeToMeal = async (req, res) => {
-
- }
+    const { mealName, recipeTitle } = req.body;
+  
+    try {
+      const meal = await MealPlan.findOne({ name: mealName });
+      const recipe = await Recipe.findOne({ title: recipeTitle });
+      console.log(meal);
+  
+      if (!meal) {
+        return res.status(500).json({ message: "Meal not found" });
+      }
+  
+      if (!recipe) {
+        return res.status(500).json({ message: "Recipe not found" });
+      }
+      meal.recipes.push(recipeTitle);
+      await meal.save();
+  
+      res.status(200).json({ message: "Recipe added to meal", meal });
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error });
+    }
+  };
 
  async function getMealPlan(req, res) {
     try {
@@ -71,4 +91,14 @@ const deleteMealPlan = async (req, res) => {
     }
 };
 
-module.exports = { getMealPlan, addRecipeToMeal, createMealPlan,  updateMealPlan, deleteMealPlan };
+const getRecipesByMealName = async (req, res) => {
+    const { mealName } = req.params;
+    try {
+      const recipes = await Recipe.find({ meal: mealName, user: req.user });
+      res.json(recipes);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  };
+
+module.exports = { getMealPlan, addRecipeToMeal, createMealPlan, updateMealPlan, deleteMealPlan, getRecipesByMealName };

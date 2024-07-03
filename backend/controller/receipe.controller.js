@@ -55,6 +55,7 @@ const addRecipe = async (req, res) => {
         const emissionsResponse = await axios.post(url+'/api/carbon-footprint', {
             recipeName: title,
         });
+        
 
         const carbon = emissionsResponse.data.emissions_total;
         console.log(carbon);
@@ -64,6 +65,7 @@ const addRecipe = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err});
         console.log(err)
+        console.log("recipe err")
     }
 };
 
