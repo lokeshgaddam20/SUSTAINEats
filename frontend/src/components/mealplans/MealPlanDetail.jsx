@@ -158,7 +158,6 @@ export default function MealPlan() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log(response);
       setMeal((prevMeal) =>
         prevMeal.map((plan) =>
           plan.name === mealType

@@ -20,7 +20,7 @@ const mealPlanSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+ } , { timestamps: true });
 
 const MealPlan = mongoose.model('MealPlan', mealPlanSchema);
 
