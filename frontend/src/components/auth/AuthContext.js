@@ -1,5 +1,4 @@
-import React, { createContext, useState } from 'react';
-
+import { createContext, useState } from 'react';
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -10,7 +9,7 @@ const AuthProvider = ({ children }) => {
   const login = (newToken, newUserId) => {
     setToken(newToken);
     setUserId(newUserId);
-    setIsLoggedIn(true)
+    setIsLoggedIn(true);
     localStorage.setItem('token', newToken);
     localStorage.setItem('userId', newUserId);
   };
@@ -18,7 +17,7 @@ const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     setUserId(null);
-    setIsLoggedIn(false)
+    setIsLoggedIn(false);
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
   };
