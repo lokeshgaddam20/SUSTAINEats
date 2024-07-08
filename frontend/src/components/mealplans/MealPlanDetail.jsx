@@ -312,13 +312,15 @@ export default function MealPlan() {
                 <TabsContent key={mealType} value={mealType}>
                   <CardWithoutHover>
                     <CardHeader className="px-7 flex">
-                      <div>
+                      <div className="flex justify-between">
+                        <div>
                         <CardTitle>{mealType}</CardTitle>
                         <CardDescription>
                           Eat healthy and enjoy!
                         </CardDescription>
-                      </div>
+                        </div>
                       <AddButton mealType={mealType} onSave={handleAddRecipe} />
+                      </div>
                       {/* <Button onClick={() => handleAddRecipe(mealType)}>Add Recipe</Button> */}
                     </CardHeader>
                     <CardContent>
