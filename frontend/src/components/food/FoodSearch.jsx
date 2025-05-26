@@ -14,6 +14,15 @@ const FoodSearch = () => {
       console.error(error);
     }
   };
+  
+  const handleSeactch  = async  ( e) =>{
+    e.prevetnDegault();
+    try{
+      const resposne = await api.get(`/foods/search`, { params: { q: query } });
+    }catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div>
